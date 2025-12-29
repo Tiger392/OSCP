@@ -20,3 +20,17 @@ for i in {1..65535}; do (echo > /dev/tcp/<IP>/$i) >/dev/null 2>&1 && echo $i is 
 # (NetCat)
 nc -xvn <IP> 1-1000
 ```
+
+<br>
+
+### ポートスキャン
+```bash
+nmap -sC -sV -A -Pn -T5 -p- <IP>
+# (オプション)
+# ・-sC：デフォルトスクリプト実行
+# ・-sV：サービスバージョン検出
+# ・-A：OS検出、バージョン検出など有効化
+# ・-Pn：pingを送信せずスキャン（※Windows OSではping拒否する）
+# ・-T5：スキャン速度指定（0~5）
+# ・-p-：全ポートをスキャン
+```

